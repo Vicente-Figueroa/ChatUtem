@@ -1,0 +1,43 @@
+<section class="py-5 chat">
+  <div class="loading-spinner" *ngIf="loading">
+    <div class="spinner-border" role="status">
+      <span class="sr-only"></span>
+    </div>
+  </div>
+
+  <div class="container px-5">
+    <div class="text-center mb-5">
+      <h1 class="display-5 fw-bolder mb-0">
+        <span class="text-gradient d-inline tittle">Q&A Bot</span>
+      </h1>
+    </div>
+    <!-- Chat container -->
+    <div class="bg-light rounded-4 py-5 px-4 px-md-5 justify-content-center">
+      <div class="chat-messages">
+        <div *ngFor="let message of conversation" class="message-item">
+          <div class="message-content" [ngClass]="{'user-message': message.startsWith('Tu: ')}">
+            <p>{{ message }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="input-group mt-3">
+        <input
+          class="form-control"
+          type="text"
+          [(ngModel)]="query"
+          placeholder="Ingresa tu pregunta"
+          (keyup.enter)="askQuestion()"
+        />
+        <button
+          class="btn btn-dark-2"
+          type="button"
+          [disabled]="loading || !query"
+          (click)="askQuestion()"
+        >
+          Enviar
+        </button>
+      </div>
+    </div>
+ 
+  </div>
+</section>
