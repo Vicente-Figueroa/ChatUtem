@@ -131,3 +131,12 @@
   align-items: center;
   height: 100%;
 }
+
+.logo-utem {
+  max-width: 200PX;
+  transition: transform 0.3s ease;
+}
+
+.logo-utem:hover {
+  transform: scale(1.1);
+}
