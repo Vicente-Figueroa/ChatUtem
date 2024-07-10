@@ -13,7 +13,7 @@
 }
 
 .chat-message:first-child {
-  background-color: #f0f0f0;
+  background-color: #c0cdd5;
   padding: 10px;
   border-radius: 10px;
 }
@@ -135,7 +135,7 @@
 
 .user-message {
   text-align: right;
-  background-color: #e1ffe1;
+  background-color: #1c7c44;
   padding: 0.5rem;
   border-radius: 8px;
 }
