@@ -18,7 +18,7 @@ export class ChatComponent implements OnInit {
   loading = true;
   messageCount = 0;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     this.getInitialMessage();
@@ -30,8 +30,9 @@ export class ChatComponent implements OnInit {
     });
 
     this.http.get('https://utem-01-6d0e6ff9d456.herokuapp.com/chat', { headers: headers }).subscribe(
+//    this.http.get('http://localhost:5000/chat', { headers: headers }).subscribe(
       (response: any) => {
-        this.message = response.message.replace(/```/g, '').replace(/\n/g, '');
+        this.message = this.formatMessage(response.message);
         this.conversation.push(this.message);
         console.log(this.message);
         this.loading = false;
@@ -44,6 +45,7 @@ export class ChatComponent implements OnInit {
   }
 
   askQuestion() {
+    this.loading = true;
     if (this.query) {
       const headers = new HttpHeaders({
         'Content-Type': 'application/json',
@@ -51,8 +53,9 @@ export class ChatComponent implements OnInit {
       const body = { query: this.query };
 
       this.http.post('https://utem-01-6d0e6ff9d456.herokuapp.com/chat', body, { headers: headers }).subscribe(
+      //this.http.post('http://localhost:5000/chat', body, { headers: headers }).subscribe(
         (response: any) => {
-          this.message = response.message.replace(/```/g, '').replace(/\n/g, '');
+          this.message = this.formatMessage(response.message);
           this.conversation.push(`Tu: ${this.query}`);
           this.conversation.push(this.message);
           console.log(this.message);
@@ -60,7 +63,8 @@ export class ChatComponent implements OnInit {
           this.query = '';
           this.messageCount++;
           console.log(this.messageCount);
-   
+          this.loading = false;
+
         },
         (error) => {
           console.error('Error al enviar la pregunta:', error);
@@ -68,6 +72,20 @@ export class ChatComponent implements OnInit {
         }
       );
     }
+  }
+  formatMessage(message: string): string {
+    // Reemplazar los asteriscos y saltos de línea por etiquetas HTML correspondientes
+    message = message.replace(/\n/g, '<br>'); // Reemplazar saltos de línea por <br>
+    message = message.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Convertir **texto** a <strong>texto</strong>
+    message = message.replace(/\*(.*?)\*/g, '<li>$1</li>'); // Convertir *texto* a <li>texto</li>
+
+    // Añadir <ul> alrededor de los <li> elementos
+    message = message.replace(/(<li>.*?<\/li>)/g, '<ul>$1</ul>');
+
+    // Asegurar que los <ul> no estén anidados incorrectamente
+    message = message.replace(/<\/ul>\s*<ul>/g, '');
+
+    return message;
   }
 
 

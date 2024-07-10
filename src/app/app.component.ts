@@ -10,5 +10,5 @@ import { routes } from './app.routes';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'chat-app';
+  title = 'ChatBOT UTEM';
 }

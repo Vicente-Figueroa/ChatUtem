@@ -16,28 +16,18 @@
       <div class="chat-messages">
         <div *ngFor="let message of conversation" class="message-item">
           <div class="message-content" [ngClass]="{'user-message': message.startsWith('Tu: ')}">
-            <p>{{ message }}</p>
+            <pre [innerHTML]="message"></pre>
           </div>
         </div>
       </div>
       <div class="input-group mt-3">
-        <input
-          class="form-control"
-          type="text"
-          [(ngModel)]="query"
-          placeholder="Ingresa tu pregunta"
-          (keyup.enter)="askQuestion()"
-        />
-        <button
-          class="btn btn-dark-2"
-          type="button"
-          [disabled]="loading || !query"
-          (click)="askQuestion()"
-        >
+        <input class="form-control" type="text" [(ngModel)]="query" placeholder="Ingresa tu pregunta"
+          [disabled]="loading " (keyup.enter)="askQuestion()" />
+        <button class="btn btn-dark-2" type="button" [disabled]="loading || !query" (click)="askQuestion()">
           Enviar
         </button>
       </div>
     </div>
- 
+
   </div>
 </section>
